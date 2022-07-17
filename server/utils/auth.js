@@ -4,32 +4,46 @@ const secret = process.env.JSON_SECRET;
 const expiration = '2h';
 
 module.exports = {
-  authMiddleware: function ({ req }) {
-    // allows token to be sent via req.body, req.query, or headers
-    let token = req.body.token || req.query.token || req.headers.authorization;
+  // verify user thru token
+  verifyToken: function (req,res,next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
 
-    // We split the token string into an array and return actual token
-    if (req.headers.authorization) {
-      token = token.split(' ').pop().trim();
-    }
-
-    if (!token) {
-      return req;
-    }
+    if (token == null) return res.status(401).json("unauthenticated");
 
     // if token can be verified, add the decoded user's data to the request so it can be accessed in the resolver
     try {
-      const { data } = jwt.verify(token, secret, { maxAge: expiration });
+      // verify user token
+      const { data } = jwt.verify(token, secret);
       req.user = data;
+      next();
     } catch {
-      console.log('Invalid token');
+      res.status(403).json("invalid token");
     }
-
-    // return the request object so it can be passed to the resolver as `context`
-    return req;
   },
-  signToken: function ({ email, name, _id }) {
-    const payload = { email, username, _id };
+
+  verifyUser: function(req,res,next) {
+    this.verifyToken(req,res, () => {
+      // compare current user id and user id from request
+      if (req.user._id ===! req.params.id) 
+      return res.status(403).json('unauthorised action');
+
+      next()
+    })
+  },
+
+  verifyAdmin: function(req,res,next) {
+    this.verifyToken(req,res, () => {
+      // check if user is admin
+      if (!req.user.isAdmin) 
+      return res.status(403).json('unauthorised action');
+
+      next()
+    })
+  },
+  
+  signToken: function (userData) {
+    const payload = userData;
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };

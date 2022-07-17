@@ -20,6 +20,11 @@ const userSchema = new Schema({
         type: String
     },
 
+    cart: {
+      type: Schema.Types.ObjectId,
+      ref: 'Cart'
+    },
+
     password: {
         type: String,
         required: true,

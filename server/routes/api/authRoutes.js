@@ -11,7 +11,7 @@ router.post('/signup', async(req, res) => {
     try{
         const user = await User.create(req.body);
         const token = signToken(user);
-        return res.status(200).json(user);
+        return res.status(200).json(token);
     }
     catch(err) {res.status(400).json(err);}
 } )
@@ -34,5 +34,6 @@ router.post('/login', async(req,res) => {
         }
     }
     catch(err) {res.status(400).json(err);}
-    
-})
+});
+
+module.exports = router
