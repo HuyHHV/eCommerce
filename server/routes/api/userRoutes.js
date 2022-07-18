@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { verifyAdmin, verifyUser } = require('../../utils/auth');
-const {User} = require('../models');
+const {User} = require('../../models');
 
 // get all users, api/users/
 router.get('/:number',verifyAdmin, async (req,res) =>
