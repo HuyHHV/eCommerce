@@ -31,6 +31,11 @@ const userSchema = new Schema({
         required: true,
         minlength: [5,'minimum length is 5'],
         },
+
+    isAdmin: {
+      type: Boolean,
+      default: false
+    }
 });
 
 // set up pre-save middleware to create hashed password
@@ -45,6 +50,8 @@ userSchema.pre('save', async function (next) {
 
 // Define function isCorrect Password to compare the incoming password with the hashed password
 userSchema.methods.isCorrectPassword = async function (password) {
+  // console.log(password);
+  // console.log(this.password);
   return bcrypt.compare(password, this.password);
 };
 
