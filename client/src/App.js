@@ -1,16 +1,19 @@
 import React from 'react';
-import Carousel from './components/Carousel';
+import {
+  Routes,
+  Route
+} from "react-router-dom";
+import Cart from './components/Cart';
 import Navbar from './components/Navbar';
-import ProductGrid from './components/ProductGrid/ProductGrid';
-
 
 function App() {
   return (
     <>
       <Navbar/>
       <div className='h-30vh'></div>
-      <Carousel/>
-      <ProductGrid/>
+      {/* <Routes>
+          <Route path="/cart" element = {<Cart/>} />
+      </Routes> */}
     </>
   );
 }

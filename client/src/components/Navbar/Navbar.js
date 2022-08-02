@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 import {Link} from 'react-router-dom';
 import {FiMenu} from 'react-icons/fi';
+import {FaRegUser} from 'react-icons/fa';
 import {AiOutlineClose,AiOutlineShoppingCart} from 'react-icons/ai'
 import NavItem from './NavItem';
 import SearchBar from './SearchBar';
 import Signin from './Signin';
 import Signup from './Signup';
+import Cart from '../Cart'
 const categories = [
   {
     category: "Sneakers",
@@ -32,7 +34,6 @@ function Navbar() {
 
   const [sideBarState, setSideBarState] = useState({open:false, form:null });
   const toggleSideBar =  (button) => {
-    console.log(button)
     setSideBarState({open:!sideBarState.open, form:button});
   }
 
@@ -78,31 +79,34 @@ function Navbar() {
 
                 <SearchBar/>
 
-                <div className="flex justify-center gap-5">
+                <div className="flex justify-center gap-1">
                     <button 
-                    onClick={() => toggleSideBar('signup')}
-                    className="my-1 text-base text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
-                      Sign up
+                      onClick={() => toggleSideBar('signin')}
+                      className="my-1 text-base text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
+                      <FaRegUser className='text-2xl'/>
                     </button>
+              
                     <button 
-                    onClick={() => toggleSideBar('signin')}
-                    className="my-1 text-base text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
-                      Sign in
-                    </button>
-                    <NavItem link='/cart' NavItem={
-                      <div className='relative'>
-                        <AiOutlineShoppingCart className='text-3xl hover:text-indigo-500'/>
+                      onClick={() => toggleSideBar('cart')}
+                      className="my-1 text-base text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
+                        <div className='relative'>
+                        <AiOutlineShoppingCart className='text-3xl'/>
                         <span className="absolute top-2 left-6 rounded-full bg-indigo-500 text-white p-1 text-xs">{}</span>
                       </div>
-                    }/>
+                    </button>
                 </div>
                 {
                   sideBarState.open && 
-                  <div className='bg-white absolute inset-y-0 right-0  w-max z-5 h-screen'>
-                    {sideBarState.form === 'signin'? 
-                    <Signin toggleSideBar= {toggleSideBar} setSideBarState={setSideBarState} /> : 
-                    <Signup toggleSideBar= {toggleSideBar} setSideBarState={setSideBarState}/>}
-                  </div>
+                  <aside className='bg-white fixed inset-y-0 right-0  md:w-max w-screen z-5 h-screen shadow-md overflow-y-auto'>
+                    {sideBarState.form === 'signin'&&
+                    <Signin toggleSideBar= {toggleSideBar} setSideBarState={setSideBarState} />}
+                    {sideBarState.form === 'signup'&&
+                    <Signup toggleSideBar= {toggleSideBar} setSideBarState={setSideBarState}/>
+                    } 
+                    {sideBarState.form === 'cart'&&
+                    <Cart toggleSideBar= {toggleSideBar} setSideBarState={setSideBarState}/>
+                    } 
+                  </aside>
                 }
           </div>
         </div>

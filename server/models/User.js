@@ -2,40 +2,46 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
-    email: {
+      email: {
+          type: String,
+          required: true,
+          unique: true,
+          match: [/.+@.+\..+/, 'Must match an email address!'],
+          },
+          
+      firstName: {
         type: String,
-        required: true,
-        unique: true,
-        match: [/.+@.+\..+/, 'Must match an email address!'],
+        required: false,
+        // match: [/^[a-zA-Z0-9]+$/, 'username cannot contain special characters'],
+        unique:false
+        },
+
+      lastName: {
+        type: String,
+        required: [true, "can't be blank"],
+        // match: [/^[a-zA-Z0-9]+$/, 'username cannot contain special characters'],
+        unique:false
         },
         
-    username: {
-      type: String,
-      required: [true, "can't be blank"],
-      match: [/^[a-zA-Z0-9]+$/, 'username cannot contain special characters'],
-      trim: true,
-      unique:false
+      address : {
+          type: String
       },
-  
-    address : {
-        type: String
-    },
 
-    cart: {
-      type: Schema.Types.ObjectId,
-      ref: 'Cart'
-    },
+      cart: {
+        type: Schema.Types.ObjectId,
+        ref: 'Cart'
+      },
 
-    password: {
-        type: String,
-        required: true,
-        minlength: [5,'minimum length is 5'],
-        },
+      password: {
+          type: String,
+          required: true,
+          minlength: [5,'minimum length is 5'],
+          },
 
-    isAdmin: {
-      type: Boolean,
-      default: false
-    }
+      isAdmin: {
+        type: Boolean,
+        default: false
+      }
 });
 
 // set up pre-save middleware to create hashed password

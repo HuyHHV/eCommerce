@@ -12,8 +12,9 @@ router.post('/signup', async(req, res) => {
     }
     try{
         const user = await User.create(req.body);
+        const {password, ...userInfo} = user._doc;
         const token = signToken(user);
-        return res.status(200).json(token);
+        return res.status(200).json({token,userInfo});
     }
     catch(err) {res.status(400).json(err);}
 } )
@@ -22,7 +23,6 @@ router.post('/signup', async(req, res) => {
 
 router.post('/signin', async(req,res) => {
     try{
-        console.log(req.body.password);
         const user = await User.findOne({email:req.body.email});
 
         // check whether user existed
@@ -36,8 +36,9 @@ router.post('/signin', async(req,res) => {
         return res.status(401).json("Incorrect email or password")
         }
         // if correct password return jwt token
+        const {password, ...userInfo} = user._doc;
         const token = signToken(user);
-        return res.status(200).json(token);
+        return res.status(200).json({token,userInfo})
     }
     catch(err) {
         console.log(err);

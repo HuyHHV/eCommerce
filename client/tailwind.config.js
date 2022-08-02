@@ -7,7 +7,9 @@ module.exports = {
       spacing: {
         '80vh': '80vh',
         '100vw':'100vw',
+        '30vw':'30vw',
         '50vw':'50vw',
+        '50vh': '50vh',
         '30vh':'30vh'
       }
     },

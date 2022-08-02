@@ -1,24 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import {signin, signup} from './authAction'
 const authSlice = createSlice({
     name: 'auth',
-    initialState: {user:null, token:null},
-    reducers: {
-        signin: (state,action) => {
-            const {user, accesstoken} = action.payload;
-            state.user = user;
-            state.token=  accesstoken
+    initialState: {
+        loading: false,
+        userInfo: null, // for user object
+        userToken: null, // for storing the JWT
+        error: null,
+        success: false, // for monitoring the registration process.
+    },
+    reducers:{},
+    extraReducers: {
+        [signup.pending]: (state) => {
+            state.loading = true
+            state.error = null
         },
-        signout: (state, action) => {
-            state.user = null;
-            state.token=  null
-        }
-    }
+        [signup.fulfilled]: (state, { payload }) => {
+            state.loading = false
+            state.userToken = payload.token
+            state.userInfo = payload.userInfo
+            state.success = true // registration successful
+        },
+        [signup.rejected]: (state, { payload }) => {
+            state.loading = false
+            state.error = payload
+        },
+        [signin.pending]: (state) => {
+            state.loading = true
+            state.error = null
+        },
+        [signin.fulfilled]: (state, { payload }) => {
+            state.loading = false
+            state.userToken = payload.token
+            state.userInfo = payload.userInfo
+            state.success = true // registration successful
+        },
+        [signin.rejected]: (state, { payload }) => {
+            state.loading = false
+            state.error = payload
+        },
+},
 })
 
-const {signin,signout} = authSlice.actions;
-const selectCurrentUser = (state) => state.auth.user;
-const selectCurrentToken = (state) => state.auth.token;
-
-export default authSlice.reducer;
-export {signin,signout,selectCurrentToken,selectCurrentUser};
+export default authSlice.reducer
