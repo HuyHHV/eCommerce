@@ -20,8 +20,8 @@ router.get('/:number',verifyAdmin, async (req,res) =>
     }
   })
 
-// get one user, api/users/:id
-router.get('/:id',verifyAdmin, async (req,res) => 
+// get one user, api/users/id/:id
+router.get('/id/:id',verifyAdmin, async (req,res) => 
   {
     try {
       const userData = await User.findById(req.params.id).select('-password');

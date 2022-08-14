@@ -4,13 +4,15 @@ const {signToken} = require('../../utils/auth')
 
 // SINGUP route, api/auth/signup
 router.post('/signup', async(req, res) => {
-    if(req.body.isAdmid) {return res.status(403).json("unauthorised action") }
-    const count = await User.countDocuments({email:req.body.email})
-    console.log(count) ;
-    if (count !== 0) {
-        return res.status(401).json("email is already in use");
-    }
     try{
+        if(req.body.isAdmid) {return res.status(403).json("unauthorised action") };
+
+        const count = await User.countDocuments({email:req.body.email});
+        console.log(count) ;
+        if (count !== 0) {
+            return res.status(401).json("email is already in use");
+        }
+
         const user = await User.create(req.body);
         const {password, ...userInfo} = user._doc;
         const token = signToken(user);

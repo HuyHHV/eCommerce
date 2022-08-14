@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {signin} from '../../features/auth/authAction';
 import {useForm} from 'react-hook-form';
+import Error from '../Error';
 function Signin({toggleSideBar,setSideBarState}) {
     const { loading, userToken,userInfo, error, success } = useSelector(
         (state) => state.auth
@@ -34,10 +35,10 @@ function Signin({toggleSideBar,setSideBarState}) {
             </button>
         </div>
         <form onSubmit={handleSubmit(submitForm)}>
-        
             <div className='w-full flex items-center justify-center my-10'>
                 <h1 className='text-4xl font-bold'>Sign in</h1>
             </div>
+            {error && <Error>{error}</Error>}
             <div className='flex gap-1 my-4'>
                 <p>Don't have an account yet?</p>
                 <button 

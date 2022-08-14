@@ -1,13 +1,15 @@
 const db = require('../config/connection');
-const { User } = require('../models');
+const { User, Product } = require('../models');
 const userSeeds = require('./userSeeds.json');
+const productSeeds = require('./productSeeds.json')
 db.once('open', async () => {
   try {
-    
     await User.deleteMany({});
     await User.create(userSeeds);
-    const count = await User.countDocuments({email:"test1@email.com"})
-    console.log(count)
+
+    await Product.deleteMany({});
+    await Product.create(productSeeds)
+  
     console.log('all done!');
     process.exit(0);
   } catch (err) {
