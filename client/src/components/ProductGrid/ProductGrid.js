@@ -1,18 +1,56 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect,useState } from 'react'
 import Product from './Product'
 
 function ProductGrid() {
+    const [products, setProduct] = useState([]);
+    const [nextPage,setNextPage] = useState(0);
+    const [loading,setLoading] = useState(false)
+    const getProducts = async() =>{
+        console.log(nextPage)
+        const config = {
+            header: {
+                'Content-Type': 'application/json',
+            }
+        }
+        const {data} = await axios.get(`api/products/8/${nextPage}`, config);
+        console.log(data)
+        setProduct(prev => [...prev, ...data]);
+        setLoading(false);
+    }
+    useEffect( ()=>{
+        setLoading(true)
+        getProducts();
+        console.log(products);
+    },[nextPage]);
+
+    const loadMoreProducts = () =>{
+        setNextPage(nextPage+8)
+    }
+    
+
   return (
-    <div className='mx-auto my-4'>
-        <ul className='w-full flex flex-wrap md:flex-row flex-col mx-auto p-2 items-center justify-center'>
-            <Product/>
-            <Product/>
-            <Product/>
-            <Product/>
+    
+    <div className='mx-8 my-4 '>
+        <ul className='w-full flex flex-wrap md:flex-row flex-col mx-auto p-2 justify-center'>
+            {products.length && products.map(product => (
+                <Product key = {product._id} productDetails = {product}/>
+            ))}
+            
         </ul>
-        <div className='w-full flex items-center justify-center'>
-            <button className='bg-black text-white font-bold text-xl p-4 mx-auto'>
-                SHOW MORE PRODUCTS
+        <div className='w-full flex justify-center'>
+            <button 
+            disabled={loading}
+            onClick={loadMoreProducts}
+            className=' rounded-md bg-black text-white font-bold text-xl p-4 mx-auto inline-flex items-center gap-1'>
+                {loading?
+                    <>
+                    <svg className="border-t-transparent border-solid animate-spin  rounded-full border-gray-200 border-4 h-5 w-5"></svg>
+                    Loading...
+                    </>
+                    : 'Load More Products'
+                }
+                
             </button>
         </div>
     </div>

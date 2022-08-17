@@ -3,17 +3,17 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Cart from './components/Cart';
 import Navbar from './components/Navbar';
+import Home from './pages/Home';
 
 function App() {
   return (
     <>
       <Navbar/>
-      <div className='h-30vh'></div>
-      {/* <Routes>
-          <Route path="/cart" element = {<Cart/>} />
-      </Routes> */}
+      <div className='md:h-30vh none'></div>
+      <Routes>
+          <Route path="/" element = {<Home/>} />
+      </Routes>
     </>
   );
 }

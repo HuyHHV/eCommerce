@@ -3,15 +3,20 @@ const Product = require('../../models/Product');
 const { verifyAdmin } = require('../../utils/auth');
 
 // get all product, api/products/{number}
-router.get('/:number', async(req,res) =>{
+router.get('/:limit?/:skip?', async(req,res) =>{
     {
         try {
-          const params = req.params.number;
-          const productData = params?
-          // show numbers of users equal to params value
-           await User.find().limit(params)
-          //  show all users
-           :await User.find();
+          // limit the number of products being fetched
+          const limit = req.params.limit;
+          // skip the results
+          const skip = req.params.skip;
+          let productData;
+
+          if (limit) {
+            productData = skip? 
+              await Product.find().limit(limit).skip(skip)
+              :await Product.find().limit(limit)
+          }else productData = await Product.find();
           res.status(200).json(productData);
          }
         catch (err) {
