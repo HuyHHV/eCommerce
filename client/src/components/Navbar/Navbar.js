@@ -7,7 +7,9 @@ import NavItem from './NavItem';
 import SearchBar from './SearchBar';
 import Signin from './Signin';
 import Signup from './Signup';
-import Cart from '../Cart'
+import Cart from '../Cart';
+import { useDispatch, useSelector } from 'react-redux';
+import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
 const categories = [
   {
     category: "Sneakers",
@@ -28,16 +30,12 @@ const categories = [
 ]
 
 function Navbar() {
-
+  // hamburger menu
   const [menuOpen, setMenuState] = useState(false);
   const toggleMenu = () => setMenuState(!menuOpen);
-
-  const [sideBarState, setSideBarState] = useState({open:false, form:null });
-  const toggleSideBar =  (button) => {
-    setSideBarState({open:!sideBarState.open, form:button});
-  }
-
-  
+  // sidebar states to toggle sidebar 
+  const dispatch = useDispatch();
+  const sideBarState = useSelector((state) => state.sidebarReducer);
   return (
     <>
       <nav className="bg-white md:shadow fixed w-full z-50">
@@ -78,16 +76,16 @@ function Navbar() {
                 </div>
 
                 <SearchBar/>
-
                 <div className="flex justify-center gap-1">
+                    {/* signin&signup button */}
                     <button 
-                      onClick={() => toggleSideBar('signin')}
+                      onClick={() => dispatch(toggleSideBar({form:'signin'}))}
                       className="my-1 text-base text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
                       <FaRegUser className='text-2xl'/>
                     </button>
-              
+                    {/* cart button */}
                     <button 
-                      onClick={() => toggleSideBar('cart')}
+                      onClick={() => dispatch(toggleSideBar({form:'cart'}))}
                       className="my-1 text-base text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
                         <div className='relative'>
                         <AiOutlineShoppingCart className='text-3xl'/>
@@ -99,12 +97,12 @@ function Navbar() {
                   sideBarState.open && 
                   <aside className='bg-white fixed inset-y-0 right-0  md:w-max w-screen z-5 h-screen shadow-md overflow-y-auto'>
                     {sideBarState.form === 'signin'&&
-                    <Signin toggleSideBar= {toggleSideBar} setSideBarState={setSideBarState} />}
+                    <Signin/>}
                     {sideBarState.form === 'signup'&&
-                    <Signup toggleSideBar= {toggleSideBar} setSideBarState={setSideBarState}/>
+                    <Signup/>
                     } 
                     {sideBarState.form === 'cart'&&
-                    <Cart toggleSideBar= {toggleSideBar} setSideBarState={setSideBarState}/>
+                    <Cart/>
                     } 
                   </aside>
                 }

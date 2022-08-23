@@ -16,8 +16,7 @@ const signup = createAsyncThunk(
                     {fisrtName,lastName,address,email,password},
                     config
             );
-            localStorage.setItem('ohUserToken',JSON.stringify(data.token));
-            localStorage.setItem('ohUserInfo',JSON.stringify(data.userInfo));          
+                      
             return data;
         }
         catch(error) {
@@ -46,8 +45,7 @@ const signin = createAsyncThunk(
                     {email,password},
                     config
             );
-            localStorage.setItem('ohUserToken',JSON.stringify(data.token));
-            localStorage.setItem('ohUserInfo',JSON.stringify(data.userInfo))  ;          
+                     
             return data;
         }
         catch(error) {

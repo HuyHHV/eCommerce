@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Product from './pages/Product';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <div className='md:h-30vh none'></div>
       <Routes>
           <Route path="/" element = {<Home/>} />
+          <Route path="/products/:id" element = {<Product/>} />
       </Routes>
     </>
   );

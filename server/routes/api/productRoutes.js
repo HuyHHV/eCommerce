@@ -3,13 +3,13 @@ const Product = require('../../models/Product');
 const { verifyAdmin } = require('../../utils/auth');
 
 // get all product, api/products/{number}
-router.get('/:limit?/:skip?', async(req,res) =>{
+router.get('/', async(req,res) =>{
     {
         try {
           // limit the number of products being fetched
-          const limit = req.params.limit;
+          const limit = req.query.limit;
           // skip the results
-          const skip = req.params.skip;
+          const skip = req.query.skip;
           let productData;
 
           if (limit) {
@@ -27,9 +27,10 @@ router.get('/:limit?/:skip?', async(req,res) =>{
 }) 
 
 // get a single product, api/products/id/:id
-router.get('/id/:id', async (req,res) => 
+router.get('/:id', async (req,res) => 
   {
     try {
+      console.log(req.body)
       const productData = await Product.findById(req.params.id);
       if (!productData) { 
         return res.status(404).json({ message: 'No product with that ID' });

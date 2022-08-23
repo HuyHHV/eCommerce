@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect,useState } from 'react'
-import Product from './Product'
+import ProductCard from './ProductCard'
 
 function ProductGrid() {
     const [products, setProduct] = useState([]);
@@ -13,7 +13,7 @@ function ProductGrid() {
                 'Content-Type': 'application/json',
             }
         }
-        const {data} = await axios.get(`api/products/8/${nextPage}`, config);
+        const {data} = await axios.get(`api/products/?limit=8&skip=${nextPage}`, config);
         console.log(data)
         setProduct(prev => [...prev, ...data]);
         setLoading(false);
@@ -34,7 +34,7 @@ function ProductGrid() {
     <div className='mx-8 my-4 '>
         <ul className='w-full flex flex-wrap md:flex-row flex-col mx-auto p-2 justify-center'>
             {products.length && products.map(product => (
-                <Product key = {product._id} productDetails = {product}/>
+                <ProductCard key = {product._id} productDetails = {product}/>
             ))}
             
         </ul>

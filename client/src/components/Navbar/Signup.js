@@ -3,11 +3,12 @@ import {useSelector,useDispatch} from 'react-redux'
 import { AiOutlineClose } from 'react-icons/ai'
 import {useForm} from 'react-hook-form'
 import { signup } from '../../features/auth/authAction'
+import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
 import Error from '../Error'
 
-function Signup({toggleSideBar,setSideBarState}) {
+function Signup() {
     const { loading, userToken,userInfo, error, success } = useSelector(
-        (state) => state.auth
+        (state) => state.persistedReducer.auth
       )
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
@@ -30,7 +31,7 @@ function Signup({toggleSideBar,setSideBarState}) {
     <div className="w-full max-w-sm bg-white p-5">
         <div className='w-full flex justify-end'>
             <button 
-            onClick={() => toggleSideBar()}
+            onClick={() => dispatch(toggleSideBar({open:false}))}
             className='text-xl'> 
                 <AiOutlineClose/> 
             </button>
@@ -44,7 +45,7 @@ function Signup({toggleSideBar,setSideBarState}) {
                 <p>Already have an account?</p>
                 <button 
                 type='button'
-                onClick={() => setSideBarState({open:true, form:'signin'})}
+                onClick={() => dispatch(toggleSideBar({open:true, form:'signin'}))}
                 className='font-bold hover:underline underline-offset-1'>
                     Sign in
                 </button>
