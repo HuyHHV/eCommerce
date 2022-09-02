@@ -33,7 +33,7 @@ function ProductGrid() {
     
     <div className='mx-8 my-4 '>
         <ul className='w-full flex flex-wrap md:flex-row flex-col mx-auto p-2 justify-center'>
-            {products.length && products.map(product => (
+            {products.length>0 && products.map(product => (
                 <ProductCard key = {product._id} productDetails = {product}/>
             ))}
             

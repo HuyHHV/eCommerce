@@ -5,11 +5,12 @@ import { publicRequest } from '../../axiosConfig'
 import {AiOutlineHeart} from 'react-icons/ai'
 import {addProduct} from '../../features/cart/cartSlice'
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 function ProductInfo() {
     const {id} = useParams()
     const [productData, setProduct] = useState(null);
-    const [selectedSize, setSize] = useState("")
+    const [selectedSize, setSize] = useState("");
+    const userInfor = useSelector(state => state.persistedReducer.userInfor)
     const sizes =[4,5,6,7,8,9,10,11,12];
     const dispatch = useDispatch()
     const getSingleProduct = async() =>{
@@ -27,15 +28,35 @@ function ProductInfo() {
             console.log(error)
         }
     };
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        dispatch(addProduct({...productData,size:selectedSize}))
-        dispatch(toggleSideBar({form:"cart",open:true}))
+    
+    const addProductToCartDb = async() =>{ 
+        try {
+            const config = {
+                "Content-type" : "application/json"
+            }
+            const request = {
+                productId:id,
+                userId: userInfor._id,
+                size:selectedSize
+            }
+            await axios.post('/api/cart', config, request)
+        } catch (error) {
+            console.log(error)
+        }
+    } 
+
+    const handleSubmit = async(event) => {
+        event.preventDefault();
+        dispatch(addProduct({...productData,size:selectedSize}));
+        dispatch(toggleSideBar({form:"cart",open:true}));
+        // add product to cart in database
+        if (userInfor) {await addProductToCartDb();}
     }
     const handleChange =  (event) => {
         setSize(event.target.value)
     }
 
+    // 
     useEffect(() => {
         getSingleProduct()
         // console.log(productData)
