@@ -7,7 +7,7 @@ import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
 import Error from '../Error'
 
 function Signup() {
-    const { loading, userToken,userInfo, error, success } = useSelector(
+    const { loading, userToken, error, success } = useSelector(
         (state) => state.persistedReducer.auth
       )
     const dispatch = useDispatch();

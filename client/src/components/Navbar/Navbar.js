@@ -10,6 +10,7 @@ import Signup from './Signup';
 import Cart from '../Cart';
 import { useDispatch, useSelector } from 'react-redux';
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
+import Checkout from '../Checkout';
 const categories = [
   {
     category: "Sneakers",
@@ -103,7 +104,10 @@ function Navbar() {
                     } 
                     {sideBarState.form === 'cart'&&
                     <Cart/>
-                    } 
+                    }
+                    {sideBarState.form === 'checkout'&&
+                    <Checkout/>
+                    }  
                   </aside>
                 }
           </div>

@@ -5,12 +5,12 @@ const {signToken} = require('../../utils/auth')
 // SINGUP route, api/auth/signup
 router.post('/signup', async(req, res) => {
     try{
-        if(req.body.isAdmid) {return res.status(403).json("unauthorised action") };
+        if(req.body.isAdmid) {return res.status(403).send("unauthorised action") };
 
         const count = await User.countDocuments({email:req.body.email});
         console.log(count) ;
         if (count !== 0) {
-            return res.status(401).json("email is already in use");
+            return res.status(401).send("email is already in use");
         }
 
         const user = await User.create(req.body);
@@ -18,7 +18,7 @@ router.post('/signup', async(req, res) => {
         const token = signToken(user);
         return res.status(200).json({token,userInfo});
     }
-    catch(err) {res.status(400).json(err);}
+    catch(err) {res.status(400).send(err);}
 } )
 
 // LOGIN route, api/auth/signin
@@ -29,13 +29,15 @@ router.post('/signin', async(req,res) => {
 
         // check whether user existed
         if (!user) {
-            return res.status(401).json("Incorrect email or password")
+            console.log("Incorrect email or password")
+            return res.status(401).send("Incorrect email or password")
           }
         // console.log(user)
         // check password
         const correctPw = await user.isCorrectPassword(req.body.password);
         if (!correctPw) {
-        return res.status(401).json("Incorrect email or password")
+            console.log("Incorrect email or password")
+        return res.status(401).send("Incorrect email or password")
         }
         // if correct password return jwt token
         const {password, ...userInfo} = user._doc;
@@ -44,7 +46,7 @@ router.post('/signin', async(req,res) => {
     }
     catch(err) {
         console.log(err);
-        res.status(400).json(err);}
+        res.status(400).send(err);}
 });
 
 module.exports = router

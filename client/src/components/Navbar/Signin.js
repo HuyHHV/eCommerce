@@ -1,6 +1,7 @@
 import React from 'react'
 import {AiOutlineClose} from 'react-icons/ai';
 import { useEffect } from 'react';
+import {useHistory} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux';
 import {signin} from '../../features/auth/authAction';
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
@@ -10,13 +11,16 @@ function Signin() {
     const { loading, userToken,userInfo, error, success } = useSelector(
         (state) => state.persistedReducer.auth
       )
+    console.log(loading)
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
 
     const submitForm = (data) => {
         // transform email string to lowercase to avoid case sensitivity issues during login
         data.email = data.email.toLowerCase();
+        console.log('????')
         dispatch(signin(data))
+        
         
       }
       useEffect(() => {
@@ -81,9 +85,12 @@ function Signin() {
                 <div className="md:w-1/3"></div>
                 <div className="md:w-2/3">
                     <button 
+                    disabled={loading}
                     type="submit"
                     className="shadow bg-gray-900 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" >
-                        Sign in
+                        {
+                            loading?"...":"Sign in"
+                        }
                     </button>
                 </div>
             </div>

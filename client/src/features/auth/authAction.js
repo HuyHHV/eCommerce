@@ -49,8 +49,8 @@ const signin = createAsyncThunk(
             return data;
         }
         catch(error) {
-            if (error.response && error.response.data.message) {
-                return rejectWithValue(error.response.data.message)
+            if (error.response && error.response.data) {
+                return rejectWithValue(error.response.data)
                 }  
             return rejectWithValue(error.message)
         

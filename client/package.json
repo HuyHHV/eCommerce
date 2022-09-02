@@ -5,7 +5,10 @@
   "proxy": "http://127.0.0.1:3001",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
+    "@stripe/react-stripe-js": "^1.10.0",
+    "@stripe/stripe-js": "^1.35.0",
     "axios": "^0.27.2",
+    "dotenv": "^16.0.2",
     "install": "^0.13.0",
     "npm": "^8.14.0",
     "react": "^18.2.0",
