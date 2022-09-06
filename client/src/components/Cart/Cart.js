@@ -7,9 +7,9 @@ import {clearCart} from '../../features/cart/cartSlice'
 function Cart() {
   const dispatch= useDispatch()
   const cart = useSelector(state => state.persistedReducer.cart)
-  const userInfor = useSelector(state => state.persistedReducer.userInfor)
+  const {userInfo} = useSelector((state) => state.persistedReducer.auth)
   const handleCheckout = async() => {
-    
+ 
   }
   return (
     <div className="md:w-30vw w-full bg-white ">
@@ -42,7 +42,7 @@ function Cart() {
             <h3>{cart.totalPrice}</h3>
         </div>
         <div className='w-full flex items-center justify-center'>
-            {!userInfor? 
+            {!userInfo? 
               <p>
                 Please&nbsp;
                 <button 

@@ -9,7 +9,8 @@ import Error from '../Error'
 function Signup() {
     const { loading, userToken, error, success } = useSelector(
         (state) => state.persistedReducer.auth
-      )
+      );
+    const [errorState, setErrorState] = useState(null)
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
 
@@ -17,6 +18,9 @@ function Signup() {
         // transform email string to lowercase to avoid case sensitivity issues during login
         data.email = data.email.toLowerCase();
         dispatch(signup(data))
+        if(error) {
+            setErrorState(error)
+        }
         
       }
       useEffect(() => {
@@ -40,7 +44,7 @@ function Signup() {
             <div className='w-full flex items-center justify-center my-2'>
                 <h1 className='text-4xl font-bold'>Sign up</h1>
             </div>
-            {error && <Error>{error}</Error>}
+            {errorState && <Error>{errorState}</Error>}
             <div className='flex gap-1 my-4'>
                 <p>Already have an account?</p>
                 <button 

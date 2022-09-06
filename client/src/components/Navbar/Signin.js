@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {AiOutlineClose} from 'react-icons/ai';
 import { useEffect } from 'react';
 import {useHistory} from 'react-router-dom'
@@ -11,6 +11,7 @@ function Signin() {
     const { loading, userToken,userInfo, error, success } = useSelector(
         (state) => state.persistedReducer.auth
       )
+    const [errorState, setErrorState] = useState('')
     console.log(loading)
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
@@ -20,7 +21,9 @@ function Signin() {
         data.email = data.email.toLowerCase();
         console.log('????')
         dispatch(signin(data))
-        
+        if(error) {
+            setErrorState(error)
+        }
         
       }
       useEffect(() => {
@@ -43,7 +46,7 @@ function Signin() {
             <div className='w-full flex items-center justify-center my-10'>
                 <h1 className='text-4xl font-bold'>Sign in</h1>
             </div>
-            {error && <Error>{error}</Error>}
+            {errorState && <Error>{errorState}</Error>}
             <div className='flex gap-1 my-4'>
                 <p>Don't have an account yet?</p>
                 <button 

@@ -14,14 +14,14 @@ function ProductGrid() {
             }
         }
         const {data} = await axios.get(`api/products/?limit=8&skip=${nextPage}`, config);
-        console.log(data)
+       
         setProduct(prev => [...prev, ...data]);
         setLoading(false);
     }
     useEffect( ()=>{
         setLoading(true)
         getProducts();
-        console.log(products);
+        // console.log(products);
     },[nextPage]);
 
     const loadMoreProducts = () =>{

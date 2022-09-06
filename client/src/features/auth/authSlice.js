@@ -17,6 +17,7 @@ const authSlice = createSlice({
         },
         [signup.fulfilled]: (state, { payload }) => {
             state.loading = false
+            state.error = null
             state.userToken = payload.token
             state.userInfo = payload.userInfo
             state.success = true // registration successful
@@ -31,6 +32,7 @@ const authSlice = createSlice({
         },
         [signin.fulfilled]: (state, { payload }) => {
             state.loading = false
+            state.error = null
             state.userToken = payload.token
             state.userInfo = payload.userInfo
             state.success = true // registration successful
