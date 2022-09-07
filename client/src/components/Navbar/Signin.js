@@ -90,9 +90,9 @@ function Signin() {
                     <button 
                     disabled={loading}
                     type="submit"
-                    className="shadow bg-gray-900 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" >
+                    className="shadow bg-gray-900 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded disabled:opacity-50" >
                         {
-                            loading?"...":"Sign in"
+                            loading?"Signing in...":"Sign in"
                         }
                     </button>
                 </div>

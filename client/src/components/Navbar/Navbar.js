@@ -11,6 +11,7 @@ import Cart from '../Cart';
 import { useDispatch, useSelector } from 'react-redux';
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
 import Checkout from '../Checkout';
+import Dropdown from './Dropdown';
 const categories = [
   {
     category: "Sneakers",
@@ -32,6 +33,7 @@ const categories = [
 
 function Navbar() {
   // hamburger menu
+  const {userInfo} = useSelector(state => state.persistedReducer.auth)
   const [menuOpen, setMenuState] = useState(false);
   const toggleMenu = () => setMenuState(!menuOpen);
   // sidebar states to toggle sidebar 
@@ -39,7 +41,7 @@ function Navbar() {
   const sideBarState = useSelector((state) => state.sidebarReducer);
   return (
     <>
-      <nav className="bg-white md:shadow fixed w-full z-50">
+      <nav className="bg-white md:shadow fixed top-0 w-full z-10">
         <div className='
             my-6
             px-8
@@ -69,21 +71,23 @@ function Navbar() {
               px-6 
               py-6 
               md:flex md:justify-between md:items-center">
-
                 <div className="flex flex-col md:flex-row md:mx-6">
                   {categories.map((category,index) => (
                     <NavItem key={index} link={category.link} NavItem={category.category} />
                   ))}
                 </div>
-
                 <SearchBar/>
-                <div className="flex justify-center gap-1">
+                <div className="flex justify-center md:flex-row flex-col my-2 gap-1">
                     {/* signin&signup button */}
-                    <button 
-                      onClick={() => dispatch(toggleSideBar({form:'signin'}))}
-                      className="my-1 text-base text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
-                      <FaRegUser className='text-2xl'/>
-                    </button>
+                    {
+                      userInfo?
+                      <Dropdown userInfo={userInfo}/>:
+                      <button 
+                        onClick={() => dispatch(toggleSideBar({form:'signin'}))}
+                        className="my-1 text-base text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
+                        <FaRegUser className='text-2xl'/>
+                      </button>
+                    }
                     {/* cart button */}
                     <button 
                       onClick={() => dispatch(toggleSideBar({form:'cart'}))}

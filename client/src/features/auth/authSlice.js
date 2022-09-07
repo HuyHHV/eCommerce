@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {signin, signup} from './authAction'
+import {signin, signup} from './authAction';
+import storage from 'redux-persist/lib/storage'
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -9,7 +10,15 @@ const authSlice = createSlice({
         error: null,
         success: false, // for monitoring the registration process.
     },
-    reducers:{},
+    reducers:{
+        logout:(state) => {
+            state.userInfo= null; 
+            state.userToken= null; 
+            state.error= null;
+            state.success= false; 
+            storage.removeItem('persist:root');
+        }
+    },
     extraReducers: {
         [signup.pending]: (state) => {
             state.loading = true
@@ -44,4 +53,5 @@ const authSlice = createSlice({
 },
 })
 
+export const { logout} = authSlice.actions
 export default authSlice.reducer

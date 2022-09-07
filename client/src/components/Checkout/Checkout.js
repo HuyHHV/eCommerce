@@ -9,7 +9,7 @@ import {PaymentElement} from '@stripe/react-stripe-js'
 import axios from 'axios';
 import CheckoutForm from './CheckoutForm';
 function Checkout() {
-    const [clientSecret, setClientSecret] = useState(null)
+    const [clientSecret, setClientSecret] = useState(null);
     const dispatch = useDispatch();
     const {email} = useSelector(state => state.persistedReducer.auth.userInfo);
     console.log(email)

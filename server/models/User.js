@@ -11,7 +11,7 @@ const userSchema = new Schema({
           
       firstName: {
         type: String,
-        required: false,
+        required: [true, "can't be blank"],
         // match: [/^[a-zA-Z0-9]+$/, 'username cannot contain special characters'],
         unique:false
         },
