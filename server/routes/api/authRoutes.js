@@ -18,7 +18,7 @@ router.post('/signup', async(req, res) => {
         const token = signToken(user);
         return res.status(200).json({token,userInfo});
     }
-    catch(err) {res.status(400).send(err);}
+    catch(err) {res.status(400).json(err);}
 } )
 
 // LOGIN route, api/auth/signin
@@ -46,7 +46,7 @@ router.post('/signin', async(req,res) => {
     }
     catch(err) {
         console.log(err);
-        res.status(400).send(err);}
+        res.status(400).json(err);}
 });
 
 module.exports = router

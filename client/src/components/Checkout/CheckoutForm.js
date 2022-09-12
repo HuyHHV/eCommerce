@@ -4,14 +4,20 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
-
+import { useDispatch } from "react-redux";
+import { toggleSideBar } from "../../features/sidebar/sidebarSlice";
+import { clearCart } from "../../features/cart/cartSlice";
 export default function CheckoutForm() {
+  const dispatch = useDispatch()
   const stripe = useStripe();
   const elements = useElements();
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(()=> {
+    setMessage(null)
+  },[])
   useEffect(() => {
     if (!stripe) {
       return;
@@ -43,6 +49,11 @@ export default function CheckoutForm() {
     });
   }, [stripe]);
 
+  // Actions after payment success 
+  const paymentSuccessActions = async() => {
+      dispatch(clearCart());
+      dispatch(toggleSideBar({form:'paymentSuccess'}));
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -58,10 +69,9 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
       },
     });
-
+    if (!error) {paymentSuccessActions() }
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
     // your `return_url`. For some payment methods like iDEAL, your customer will

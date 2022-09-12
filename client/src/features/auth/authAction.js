@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const signup = createAsyncThunk(
     'auth/signup',
-    async ({fisrtName,lastName,address,email,password}, {rejectWithValue}) => {
+    async (payload, {rejectWithValue}) => {
         try{
             const config = {
                 header: {
@@ -13,16 +13,16 @@ const signup = createAsyncThunk(
             // make request to backend
             const {data} = await axios.post(
                     'api/auth/signup',
-                    {fisrtName,lastName,address,email,password},
+                    payload,
                     config
             );
                       
             return data;
         }
         catch(error) {
-            if (error.response && error.response.data.message) {
+            if (error.response && error.response.data) {
                 console.log()
-                return rejectWithValue(error.response.data.message)
+                return rejectWithValue(error.response.data)
                 }  
             return rejectWithValue(error.message)
         

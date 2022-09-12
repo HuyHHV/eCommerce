@@ -2,7 +2,7 @@ import React from 'react'
 
 function Error({children}) {
   return (
-    <div className='bg-red-200 text-sm'>
+    <div className='px-2 bg-red-200 text-sm'>
         {children}
     </div>
   )

@@ -17,18 +17,19 @@ function Signup() {
     const submitForm = (data) => {
         // transform email string to lowercase to avoid case sensitivity issues during login
         data.email = data.email.toLowerCase();
+        console.log(data)
         dispatch(signup(data))
-        if(error) {
-            setErrorState(error)
-        }
-        
       }
       useEffect(() => {
+        if(error) {
+            setErrorState(error)
+            console.log(error)
+        }
         // refresh if registration was successful
         if (success) {
             window.location.reload()
         }
-      }, [loading, userToken, success])
+      }, [loading, userToken, success,error])
 
       
   return (

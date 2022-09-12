@@ -27,6 +27,9 @@ function Signin() {
         
       }
       useEffect(() => {
+        if(error && loading) {
+            setErrorState(error)
+        }
         // refresh if registration was successful
         if (success) {
             window.location.reload()

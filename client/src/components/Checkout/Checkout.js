@@ -5,7 +5,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
-import {PaymentElement} from '@stripe/react-stripe-js'
 import axios from 'axios';
 import CheckoutForm from './CheckoutForm';
 function Checkout() {
