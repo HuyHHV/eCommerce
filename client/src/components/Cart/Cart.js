@@ -21,14 +21,25 @@ function Cart() {
                 <AiOutlineClose/> 
             </button>
         </div>
-        {cart.products.length >0 && 
+        {cart.products.length >0 ? 
           <div className='py-5 h-80 overflow-y-auto snap-y'>
               <ul className='flex flex-col divide-y'>
                 {cart.products.map((product,index) => 
                 <CartCard key={product.index} productInfo={product} index={index}/>
                   )}
               </ul>
+          </div>:
+          <div className='w-full flex flex-wrap px-11 py-4'>
+            <p className='text-center'>
+              Your shopping is empty&nbsp;
+              <button 
+              className='text-orange-900 font-bold'
+              onClick={() => dispatch(toggleSideBar({open:false}))}>
+                continue to shopping
+              </button>
+            </p>
           </div>
+        
         }
         <div className='flex w-full justify-end p-5'>
           <button 

@@ -17,7 +17,7 @@ const cartSlice = createSlice({
         // payload is a product index from product array
         removeProduct: (state, {payload}) => {
             state.quantity -= 1;
-            state.products.splice(payload,1);
+            state.products.splice(payload.index,1);
             state.totalPrice -= parseFloat(payload.price.replace('$',''))
         },
         clearCart: (state) => {
