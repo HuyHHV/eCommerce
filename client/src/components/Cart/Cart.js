@@ -8,9 +8,7 @@ function Cart() {
   const dispatch= useDispatch()
   const cart = useSelector(state => state.persistedReducer.cart)
   const {userInfo} = useSelector((state) => state.persistedReducer.auth)
-  const handleCheckout = async() => {
- 
-  }
+  
   return (
     <div className="md:w-30vw w-full bg-white ">
         <div className='w-full h-20 flex justify-between items-center px-10 bg-gray-50'>
@@ -31,7 +29,7 @@ function Cart() {
           </div>:
           <div className='w-full flex flex-wrap px-11 py-4'>
             <p className='text-center'>
-              Your shopping is empty&nbsp;
+              Your cart is empty,&nbsp;
               <button 
               className='text-orange-900 font-bold'
               onClick={() => dispatch(toggleSideBar({open:false}))}>
@@ -64,8 +62,9 @@ function Cart() {
                 &nbsp; to checkout
               </p> :
               <button 
-              onClick={() => dispatch(toggleSideBar({open:true, form:'checkout'}))}
-              className='bg-black text-white font-bold text-md py-4 px-28'>
+              disabled={cart.quantity===0}
+              onClick={() => dispatch(toggleSideBar({open:true, form:'inforconfirm'}))}
+              className='bg-black text-white font-bold text-md py-4 px-28  disabled:opacity-50'>
                   CHECK OUT
               </button>
             }

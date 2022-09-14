@@ -1,2 +1,4 @@
 import Checkout from "./Checkout";
-export default Checkout
+import PaymentSucess from './PaymentSucess'
+import InforConfirm from "./InforConfirm";
+export {Checkout, PaymentSucess,InforConfirm}

@@ -1,19 +1,14 @@
-import React, {useState,useRef} from 'react'
+import React, {useState} from 'react'
 import {Link} from 'react-router-dom';
 import {FiMenu} from 'react-icons/fi';
 import {FaRegUser} from 'react-icons/fa';
 import {AiOutlineClose,AiOutlineShoppingCart} from 'react-icons/ai'
 import NavItem from './NavItem';
 import SearchBar from './SearchBar';
-import Signin from './Signin';
-import Signup from './Signup';
-import Cart from '../Cart';
 import { useDispatch, useSelector } from 'react-redux';
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
-import Checkout from '../Checkout';
 import Dropdown from './Dropdown';
-import PaymentSucess from '../Checkout/PaymentSucess';
-import useOnClickOutside from '../../customHooks/useOnClickOutside';
+import Sidebar from '../Sidebar'
 const categories = [
   {
     category: "Sneakers",
@@ -38,12 +33,9 @@ function Navbar() {
   const {userInfo} = useSelector(state => state.persistedReducer.auth)
   const [menuOpen, setMenuState] = useState(false);
   const toggleMenu = () => setMenuState(!menuOpen);
-  const sidebar = useRef()
   // sidebar states to toggle sidebar 
   const dispatch = useDispatch();
-  const sideBarState = useSelector((state) => state.sidebarReducer);
-  // custom hook to close sidebar
-  useOnClickOutside(sidebar,() => dispatch(toggleSideBar({open:false})))
+   // custom hook to close sidebar
   return (
     <>
       <nav className="bg-white md:shadow fixed top-0 w-full z-10">
@@ -103,27 +95,7 @@ function Navbar() {
                       </div>
                     </button>
                 </div>
-                {
-                  sideBarState.open && 
-                  <aside
-                  ref={sidebar}
-                   className='bg-white fixed inset-y-0 right-0  md:w-max w-screen z-5 h-screen shadow-md overflow-y-auto'>
-                    {sideBarState.form === 'signin'&&
-                    <Signin/>}
-                    {sideBarState.form === 'signup'&&
-                    <Signup/>
-                    } 
-                    {sideBarState.form === 'cart'&&
-                    <Cart/>
-                    }
-                    {sideBarState.form === 'checkout'&&
-                    <Checkout/>
-                    }
-                    {sideBarState.form === 'paymentSucces'&&
-                    <PaymentSucess/>
-                    }    
-                  </aside>
-                }
+                <Sidebar/>
           </div>
         </div>
       </nav>
