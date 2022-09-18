@@ -65,12 +65,12 @@ function ProductInfo() {
   return (
     productData && 
     <div className='flex md:flex-row flex-col  justify-center overflow-hidden'>
-        <section className='p-5 w-1/2 h-[80vh] relative mx-6'>
+        <section className='md:w-1/2 w-full md:h-[80vh] md:relative '>
             <img src={productData.imgSrc} alt={productData.name} 
-            className='block w-full h-auto absolute bottom-0'
+            className='block h-auto md:absolute md:bottom-0 object-fit'
             />
         </section>
-        <section className='w-1/2 ml-32'>
+        <section className='md:w-1/2 w-full md:ml-8'>
             <header>
                 <h1 className='font-bold text-2xl'>{productData.brand}</h1>
                 <h2 className='text-2xl'>{productData.name}</h2>

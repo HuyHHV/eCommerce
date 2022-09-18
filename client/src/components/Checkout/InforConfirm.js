@@ -1,40 +1,48 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch ,useSelector} from 'react-redux'
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
 import {AiOutlineClose} from 'react-icons/ai'
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
-function InforConfirm() {
+function InforConfirm({setClientSecret}) {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false)
     const { register, handleSubmit,reset } = useForm();
     const {userInfo} = useSelector((state) => state.persistedReducer.auth)
     const {totalPrice} = useSelector(state => state.persistedReducer.cart);
-    const submitForm = (formInput) => {
-
-        const getClientSecret = async() => {
-            try {
-                const config = {
-                    header: {
-                        "Content-Type" :"application/json"
-                    }
-                };
-                const request = {
-                    amount:totalPrice*100,
-                    userEmail:userInfo.email
+    const getClientSecret = async() => {
+        try {
+            const config = {
+                header: {
+                    "Content-Type" :"application/json"
                 }
-                const {data} = await axios.post('/api/checkout/secret',request,config)
-               
-            } catch (error) {
-                console.log(error)
+            };
+            const request = {
+                amount:totalPrice*100,
+                userEmail:userInfo.email
             }
+            const {data} = await axios.post('/api/checkout/secret',request,config)
+            console.log(data)
+            setClientSecret(data.clientSecret)
+        } catch (error) {
+            console.log(error)
         }
-        dispatch(toggleSideBar({open:true, form:'checkout'}))
-      }
+    }
+    const submitForm = (formInput) => {
+       setLoading(true)
+    }
+      
 
     //   prefill user infor from database to the form
     useEffect(()=> {
         reset(userInfo)
     },[userInfo]);
+
+    useEffect(()=> {
+        getClientSecret();
+        setLoading(false);
+        // dispatch(toggleSideBar({form:'checkout',open:true}))
+    },[loading])
   return (
     <div className="w-full max-w-sm bg-white p-5">
         <div className='w-full flex justify-end'>

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef,useState } from 'react'
 import useOnClickOutside from '../../customHooks/useOnClickOutside'
 import { useDispatch, useSelector } from 'react-redux';
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
@@ -8,6 +8,7 @@ import {Checkout,PaymentSucess,InforConfirm} from '../Checkout'
 import Cart from '../Cart'
 
 function Sidebar() {
+    const [clientSecret, setClientSecret] = useState(null);
     const sidebar = useRef()
     const dispatch = useDispatch()
     const sideBarState = useSelector((state) => state.sidebarReducer);
@@ -26,15 +27,15 @@ function Sidebar() {
                     {sideBarState.form === 'cart'&&
                     <Cart/>
                     }
+                    {sideBarState.form === 'inforconfirm'&&
+                    <InforConfirm setClientSecret= {setClientSecret}/>
+                    }  
                     {sideBarState.form === 'checkout'&&
-                    <Checkout/>
+                    <Checkout clientSecret={clientSecret}/>
                     }
                     {sideBarState.form === 'paymentSucces'&&
                     <PaymentSucess/>
                     }
-                    {sideBarState.form === 'inforconfirm'&&
-                    <InforConfirm/>
-                    }  
                   </aside>}
     </>
   )

@@ -39,15 +39,7 @@ function Navbar() {
   return (
     <>
       <nav className="bg-white md:shadow fixed top-0 w-full z-10">
-        <div className='
-            my-6
-            px-8
-            flex
-            md:justify-center
-            justify-between
-            items-center
-            md:static
-            '>           
+        <div className='my-6 px-8 flex md:justify-center justify-between items-center md:static'>           
           <Link className="text-gray-800 font-bold text-5xl hover:text-gray-800" to="/">Oh! </Link>
           <div className="md:hidden">
                 <div className="flex">
@@ -95,6 +87,7 @@ function Navbar() {
                       </div>
                     </button>
                 </div>
+                {/* Sidebar contain signup, signin, cart and checkout */}
                 <Sidebar/>
           </div>
         </div>
