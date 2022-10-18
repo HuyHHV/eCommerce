@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState} from 'react'
 import { useDispatch ,useSelector} from 'react-redux'
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
 import {AiOutlineClose} from 'react-icons/ai'
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
-function InforConfirm({setClientSecret}) {
+function InforConfirm({setPaymentIntent,paymentIntent}) {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false)
     const { register, handleSubmit,reset } = useForm();
     const {userInfo} = useSelector((state) => state.persistedReducer.auth)
     const {totalPrice} = useSelector(state => state.persistedReducer.cart);
-    const getClientSecret = async() => {
+    const getPaymentIntent = async() => {
         try {
             const config = {
                 header: {
@@ -22,14 +22,14 @@ function InforConfirm({setClientSecret}) {
                 userEmail:userInfo.email
             }
             const {data} = await axios.post('/api/checkout/secret',request,config)
-            console.log(data)
-            setClientSecret(data.clientSecret)
+            setPaymentIntent(data)
         } catch (error) {
             console.log(error)
         }
     }
-    const submitForm = (formInput) => {
-       setLoading(true)
+    const submitForm = async(formInput) => {
+        setLoading(true)
+        getPaymentIntent()
     }
       
 
@@ -37,14 +37,18 @@ function InforConfirm({setClientSecret}) {
     useEffect(()=> {
         reset(userInfo)
     },[userInfo]);
-
+    
+    useEffect(()=>{
+        setLoading(false)
+        setPaymentIntent(null)
+    },[])
     useEffect(()=> {
-        getClientSecret();
-        setLoading(false);
-        // dispatch(toggleSideBar({form:'checkout',open:true}))
-    },[loading])
+        if(paymentIntent)
+        {dispatch(toggleSideBar({form:'checkout',open:true}))  }  ;    
+    },[paymentIntent,dispatch])
   return (
-    <div className="w-full max-w-sm bg-white p-5">
+    <div
+        className="w-full max-w-sm bg-white p-5">
         <div className='w-full flex justify-end'>
             <button 
             onClick={() => dispatch(toggleSideBar({open:false}))}
@@ -109,6 +113,7 @@ function InforConfirm({setClientSecret}) {
                 <div className="md:w-2/3 m-auto ">
                     <button
                     type="submit" 
+                    disabled={loading}
                     className="w-full shadow bg-gray-900 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded disabled:opacity-50" >
                       Confirm
                     </button>

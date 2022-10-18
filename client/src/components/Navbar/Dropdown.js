@@ -7,8 +7,9 @@ function Dropdown({userInfo}) {
     const [dropdown, setDropdown] = useState('hidden');
     const dropdownMenu = useRef();
     const handleDropdown = () => {
-        if (dropdown !== 'hidden') setDropdown('hidden')
-        else setDropdown('block')
+        if (dropdown === 'hidden') setDropdown('block')
+        else if (dropdown === 'block') setDropdown('hidden');
+        console.log(dropdown)
     }
     const dispatch = useDispatch();
 

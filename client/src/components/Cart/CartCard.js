@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux'
 function CartCard({productInfo,index}) {
     const dispatch = useDispatch();
   return (
-        <li key={index} className="max-w-sm rounded-lg w-full snap-start touch-pan-y">
+        <li className="max-w-sm rounded-lg w-full snap-start touch-pan-y">
             <div className='w-full flex flex-row justify-between items-center px-5'>
                 <div className="p-5 text-md">
                     <div>

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState,useRef } from 'react'
 import {AiOutlineClose} from 'react-icons/ai';
 import { useEffect } from 'react';
-import {useHistory} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux';
 import {signin} from '../../features/auth/authAction';
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
 import {useForm} from 'react-hook-form';
+import useOnClickOutside from '../../customHooks/useOnClickOutside'
 import Error from '../Error';
 function Signin() {
     const { loading, userToken,userInfo, error, success } = useSelector(
@@ -26,18 +26,23 @@ function Signin() {
         }
         
       }
-      useEffect(() => {
-        if(error && loading) {
-            setErrorState(error)
-        }
-        // refresh if registration was successful
-        if (success) {
-            window.location.reload()
-        }
-      }, [loading, userToken, success])
+    useEffect(() => {
+    if(error && loading) {
+        setErrorState(error)
+    }
+    // refresh if registration was successful
+    if (success) {
+        window.location.reload()
+    }
+    }, [loading, userToken, success,userInfo,error]);
+
+    const sidebar = useRef()
+    useOnClickOutside(sidebar,() => dispatch(toggleSideBar({open:false})))
 
   return (
-    <div className="w-full max-w-sm bg-white p-10">
+    <div 
+    ref={sidebar}
+    className="w-full max-w-sm bg-white p-10">
         <div className='w-full flex justify-end'>
             <button 
             onClick={() => dispatch(toggleSideBar({open:false}))}

@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Navbar/>
-      <div className='md:h-30vh none'></div>
+      <div className='md:h-[15vh] none'></div>
       <Routes>
           <Route path="/" element = {<Home/>} />
           <Route path="/products/:id" element = {<Product/>} />

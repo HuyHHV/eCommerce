@@ -9,8 +9,9 @@ const sidebarSlice = createSlice({
     reducers: {
         toggleSideBar : (state,{payload}) => {
             // if payload.open is null => useopposite state
-            state.open = !payload.open? !state.open: payload.open;
-            state.form = payload.form
+            if(payload.form) {state.form = payload.form};
+            let prev = state.open;
+            state.open = !prev;
         }
     }
 })

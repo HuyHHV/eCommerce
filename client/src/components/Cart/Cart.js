@@ -1,16 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState,useRef } from 'react'
 import {AiOutlineClose} from 'react-icons/ai'
 import CartCard from './CartCard'
 import {useDispatch,useSelector} from 'react-redux'
 import {toggleSideBar} from '../../features/sidebar/sidebarSlice'
 import {clearCart} from '../../features/cart/cartSlice'
+import useOnClickOutside from '../../customHooks/useOnClickOutside'
 function Cart() {
   const dispatch= useDispatch()
   const cart = useSelector(state => state.persistedReducer.cart)
   const {userInfo} = useSelector((state) => state.persistedReducer.auth)
+
+  // close sidebar when clicking outside of sidebar
+  const sidebar = useRef()
+  useOnClickOutside(sidebar,() => dispatch(toggleSideBar({open:false})))
   
   return (
-    <div className="md:w-30vw w-full bg-white ">
+    <div 
+    ref={sidebar}
+    className="md:w-30vw w-full bg-white ">
         <div className='w-full h-20 flex justify-between items-center px-10 bg-gray-50'>
             <h1 className='text-xl font-bold'>Shopping Cart</h1>
             <button 
@@ -23,7 +30,7 @@ function Cart() {
           <div className='py-5 h-80 overflow-y-auto snap-y'>
               <ul className='flex flex-col divide-y'>
                 {cart.products.map((product,index) => 
-                <CartCard key={product.index} productInfo={product} index={index}/>
+                <CartCard key={index} productInfo={product} index={index}/>
                   )}
               </ul>
           </div>:

@@ -7,6 +7,7 @@ import {
 import { useDispatch } from "react-redux";
 import { toggleSideBar } from "../../features/sidebar/sidebarSlice";
 import { clearCart } from "../../features/cart/cartSlice";
+
 export default function CheckoutForm() {
   const dispatch = useDispatch()
   const stripe = useStripe();

@@ -22,7 +22,7 @@ function Carousel() {
   return (
     <div className='container md:flex hidden relative h-80vh mx-auto my-4 items-center flex-wrap overflow-hidden '>
         <button 
-            className='text-3xl z-10 absolute top-0 bottom-0 left-5 m-auto opacity-50' 
+            className='text-3xl z-5 absolute top-0 bottom-0 left-5 m-auto opacity-50' 
             onClick={() => handleClick('left')}>
             <BiLeftArrow />
         </button>
@@ -62,7 +62,7 @@ function Carousel() {
             </div>
         </Wrapper>
         <button 
-            className='text-3xl z-10 absolute top-0 bottom-0 right-2 m-auto opacity-50' 
+            className='text-3xl z-5 absolute top-0 bottom-0 right-2 m-auto opacity-50' 
             onClick={() => handleClick('right')}>
             <BiRightArrow />
         </button>
