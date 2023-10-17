@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -euo pipefail
+cd "$(dirname "$0")"
+
+tmpDc=".tmp.docker-compose.yml"
+
+cat <<EOF > "$tmpDc"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: ecommerce
+    volumes:
+      - mongo-ecommerce:/data/db
+
+volumes: 
+  mongo-ecommerce:
+EOF
+
+secondParam=${2:-}
+dockerComposeCMD="docker compose"
+doDc() {
+  if [ "$secondParam" = "--volumes" ]; then
+    echo "[INFO] Removing volumes"
+    $dockerComposeCMD \
+      --file "$tmpDc" \
+      down \
+      --volumes
+  else
+    dcCmd="${1:-up -d}"
+    $dockerComposeCMD \
+      --file "$tmpDc" \
+      $dcCmd
+    rm -f "$tmpDc"
+    yarn watch
+  fi
+}
+
+# Call the doDc function with any command-line arguments passed to the script.
+doDc "$@"
