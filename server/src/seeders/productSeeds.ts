@@ -1,4 +1,4 @@
-[
+export default [
     {
         "brand": "\nNike ",
         "name": "\nAir Max 90 - Women's",

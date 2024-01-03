@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-require("dotenv").config()
+import mongoose from 'mongoose'
+import 'dotenv/config'
 
 mongoose
   .connect(process.env.MONGODB_URL || 'mongodb://localhost:27017', {
@@ -11,5 +11,4 @@ mongoose
   .catch((err) => {
     console.log(err)
   })
-
-module.exports = mongoose.connection;
+export default mongoose.connection

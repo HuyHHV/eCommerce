@@ -37,7 +37,7 @@ doDc() {
       --file "$tmpDc" \
       $dcCmd
     rm -f "$tmpDc"
-    yarn watch
+    yarn dev
   fi
 }
 
